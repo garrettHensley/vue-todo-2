@@ -16,6 +16,14 @@
             placeholder="What needs to be done?"
             class="form-control"
           />
+
+          <!-- Enables a sweet popover if the user tries to enter an empty String -->
+          <div
+            id="myPop"
+            data-toggle="popover"
+            title="Input is Empty!"
+            data-content="You can't add NOTHING to your Todo list! Try adding some text. 😊"
+          ></div>
         </div>
       </div>
     </div>
@@ -70,6 +78,8 @@
 </template>
 
 <script>
+import $ from "jquery";
+
 export default {
   data() {
     return {
@@ -77,6 +87,7 @@ export default {
       displayTodo: true,
       todoList: [
         {
+          // Default object, this could be removed
           text: "Write code!",
           complete: false,
           editting: false,
@@ -87,18 +98,28 @@ export default {
   },
   methods: {
     addTo() {
-      this.todoList.push({
-        text: this.inputText,
-        complete: false,
-        editting: false,
-      });
+      // Show #myPop popover if inputText is empty or falsy
+      if (!this.inputText) {
+        $("#myPop").popover("show");
+      } else {
+        $("#myPop").popover("hide");
+        // Pushes a new object to todoList with inputText's value
+        this.todoList.push({
+          text: this.inputText,
+          complete: false,
+          editting: false,
+        });
+        this.inputText = ""; // Clears inputText so its ready for more input
+      }
     },
+    // remove from todolist, this could probably be added to function with completedList as well
     remove(index) {
       this.todoList.splice(index, 1);
     },
+    // Adds an object from todoList to completedList, and then removes from todoList
     complete(index) {
       this.completedList.push(this.todoList[0]);
-      this.todoList.splice(index, 1);
+      this.todoList.splice(index, 1); //could possibly reuse the remove() function here. Need to explore if that would be more effecient
     },
   },
 };
