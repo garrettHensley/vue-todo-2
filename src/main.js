@@ -1,17 +1,17 @@
 import Vue from "vue";
 import App from "./App.vue";
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import $ from "jquery";
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
-import "bootstrap/js/dist/tooltip";
+// Install BootstrapVue
+Vue.use(BootstrapVue);
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin);
 
-$(function() {
-  $('[data-toggle="popover"]').popover();
-});
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
 Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

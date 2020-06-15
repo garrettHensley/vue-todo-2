@@ -1,30 +1,38 @@
 <template>
   <div class="container mt-3 rounded">
     <div class="topBar text-center pt-3">
-      <div class="row">
-        <div class="col col-lg-2">
-          <button @click="displayTodo = !displayTodo" class="btn btn-primary">
-            <span v-if="displayTodo">Completed</span>
-            <span v-else>Todo</span>
-          </button>
-        </div>
-        <div class="col-6">
-          <input
-            v-model="inputText"
-            @keyup.enter="addTo"
-            type="text"
-            placeholder="What needs to be done?"
-            class="form-control"
-          />
+      <div class="row text-center mx-auto">
+        <b-col class="mb-3">
+          <b-button-group>
+            <b-button
+              @click="displayTodo = !displayTodo"
+              class="btn"
+              :class="[displayTodo ? 'bg-primary' : 'bg-secondary']"
+            >
+              Todo
+            </b-button>
+            <b-button
+              @click="displayTodo = !displayTodo"
+              class="btn"
+              :class="[displayTodo ? 'bg-secondary' : 'bg-primary']"
+            >
+              Completed
+            </b-button>
+          </b-button-group>
+        </b-col>
+      </div>
+      <div class="col">
+        <input
+          v-model="inputText"
+          @keyup.enter="addTo"
+          type="text"
+          placeholder="What needs to be done?"
+          class="form-control"
+          id="input-guy"
+        />
 
-          <!-- Enables a sweet popover if the user tries to enter an empty String -->
-          <div
-            id="myPop"
-            data-toggle="popover"
-            title="Input is Empty!"
-            data-content="You can't add NOTHING to your Todo list! Try adding some text. 😊"
-          ></div>
-        </div>
+        <!-- Enables a sweet popover if the user tries to enter an empty String -->
+        <b-popover :show.sync="show" target="input-guy" placement="top">Enter something you need to do, then press enter</b-popover>
       </div>
     </div>
     <div class="todos">
@@ -78,7 +86,7 @@
 </template>
 
 <script>
-import $ from "jquery";
+//import $ from "jquery";
 
 export default {
   data() {
@@ -94,15 +102,16 @@ export default {
         },
       ],
       completedList: [],
+      show: false,
     };
   },
   methods: {
     addTo() {
       // Show #myPop popover if inputText is empty or falsy
       if (!this.inputText) {
-        $("#myPop").popover("show");
+        //$("#myPop").popover("show");
+        this.show = true;
       } else {
-        $("#myPop").popover("hide");
         // Pushes a new object to todoList with inputText's value
         this.todoList.push({
           text: this.inputText,
@@ -110,6 +119,7 @@ export default {
           editting: false,
         });
         this.inputText = ""; // Clears inputText so its ready for more input
+        this.show = false;
       }
     },
     // remove from todolist, this could probably be added to function with completedList as well
