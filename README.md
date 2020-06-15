@@ -1,4 +1,6 @@
 # vue-todo-2
+A small Todo list app, with editing, deletion, and a completed task list.
+Demo here: https://garretthensley.github.io/vue-todo-2/
 
 ## Project setup
 ```
